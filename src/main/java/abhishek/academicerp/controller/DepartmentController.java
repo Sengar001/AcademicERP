@@ -18,6 +18,14 @@ public class DepartmentController {
     private final DepartmentService departmentService;
     private final Security security;
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateDepartment(@RequestHeader ("Authorization") String authHeader, @PathVariable ("id") Long id , @RequestBody @Valid DepartmentRequest departmentRequest) {
+        if(!security.authenticate(authHeader)){
+            return ResponseEntity.ok("Unauthorized");
+        }
+        return ResponseEntity.ok(departmentService.updateDepartment(departmentRequest, id));
+    }
+
     @GetMapping
     public ResponseEntity<List<DepartmentResponse>> getDepartment(@RequestHeader ("Authorization") String authHeader) {
         if(!security.authenticate(authHeader)){

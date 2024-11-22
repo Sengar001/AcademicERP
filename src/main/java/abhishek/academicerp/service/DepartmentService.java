@@ -32,10 +32,24 @@ public class DepartmentService {
         return "Department created";
     }
 
+    public String updateDepartment(DepartmentRequest request, Long id) {
+        Departments department = retrieveDepartment(id);
+        department.setName(request.name());
+        department.setCapacity(request.capacity());
+        repo.save(department);
+        return "Department updated";
+
+    }
+
     public List<DepartmentResponse> getAllDepartment() {
         return repo.findAll().stream()
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    public Departments retrieveDepartment(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new RuntimeException(format("Department with id %s not found", id)));
     }
 
     public Employees retrieveEmployees(String email) {
