@@ -1,6 +1,7 @@
 package abhishek.academicerp.service;
 
 import abhishek.academicerp.dto.DepartmentRequest;
+import abhishek.academicerp.dto.DepartmentResponse;
 import abhishek.academicerp.entity.Departments;
 import abhishek.academicerp.entity.Employees;
 import abhishek.academicerp.loginhelper.EncryptionService;
@@ -10,6 +11,9 @@ import abhishek.academicerp.repo.DepartmentRepo;
 import abhishek.academicerp.repo.EmployeeRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -26,6 +30,12 @@ public class DepartmentService {
         Departments department = mapper.toEntity(request);
         repo.save(department);
         return "Department created";
+    }
+
+    public List<DepartmentResponse> getAllDepartment() {
+        return repo.findAll().stream()
+                .map(mapper::toResponse)
+                .collect(Collectors.toList());
     }
 
     public Employees retrieveEmployees(String email) {
