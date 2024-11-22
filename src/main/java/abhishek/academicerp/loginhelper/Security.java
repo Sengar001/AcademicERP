@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class Security {
     private final JWThelper jwThelper ;
 
+
     public boolean authenticate(String authHeader) {
         String token = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {

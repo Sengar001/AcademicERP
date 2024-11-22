@@ -2,6 +2,7 @@ package abhishek.academicerp.controller;
 
 import abhishek.academicerp.dto.DepartmentRequest;
 import abhishek.academicerp.dto.DepartmentResponse;
+import abhishek.academicerp.dto.EmployeeResponse;
 import abhishek.academicerp.loginhelper.Security;
 import abhishek.academicerp.service.DepartmentService;
 import jakarta.validation.Valid;
@@ -33,6 +34,15 @@ public class DepartmentController {
         }
         return ResponseEntity.ok(departmentService.updateDepartment(departmentRequest, id));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<EmployeeResponse>> getEmployeeOfDepartment(@RequestHeader ("Authorization") String authHeader, @PathVariable ("id") Long id) {
+        if(!security.authenticate(authHeader)){
+            return ResponseEntity.status(401).build();
+        }
+        return ResponseEntity.ok(departmentService.getEmployeeOfDepartment(id));
+    }
+
 
     @GetMapping
     public ResponseEntity<List<DepartmentResponse>> getDepartment(@RequestHeader ("Authorization") String authHeader) {

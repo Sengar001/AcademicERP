@@ -2,11 +2,13 @@ package abhishek.academicerp.service;
 
 import abhishek.academicerp.dto.DepartmentRequest;
 import abhishek.academicerp.dto.DepartmentResponse;
+import abhishek.academicerp.dto.EmployeeResponse;
 import abhishek.academicerp.entity.Departments;
 import abhishek.academicerp.entity.Employees;
 import abhishek.academicerp.loginhelper.EncryptionService;
 import abhishek.academicerp.loginhelper.JWThelper;
 import abhishek.academicerp.mapper.DepartmentMapper;
+import abhishek.academicerp.mapper.EmployeeMaper;
 import abhishek.academicerp.repo.DepartmentRepo;
 import abhishek.academicerp.repo.EmployeeRepo;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class DepartmentService {
     private final EmployeeRepo employeeRepo;
     private final EncryptionService encryptionService;
     private final JWThelper jwThelper;
+    private final EmployeeMaper employeeMaper;
 
     public String createDepartment(DepartmentRequest request) {
         Departments department = mapper.toEntity(request);
@@ -45,6 +48,12 @@ public class DepartmentService {
         repo.save(department);
         return "Department updated";
 
+    }
+
+    public List<EmployeeResponse> getEmployeeOfDepartment(Long id) {
+        return employeeRepo.findByDepartment_Id(id).stream()
+                .map(employeeMaper::employeeResponse)
+                .collect(Collectors.toList());
     }
 
     public List<DepartmentResponse> getAllDepartment() {
