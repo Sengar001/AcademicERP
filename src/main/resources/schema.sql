@@ -4,7 +4,7 @@ use AcademicERP;
 
 create table if not exists departments(
     department_id bigint auto_increment primary key,
-    name varchar(20) not null,
+    name varchar(20) not null unique,
     capacity int not null
 );
 
