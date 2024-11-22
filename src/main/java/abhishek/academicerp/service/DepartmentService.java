@@ -2,20 +2,43 @@ package abhishek.academicerp.service;
 
 import abhishek.academicerp.dto.DepartmentRequest;
 import abhishek.academicerp.entity.Departments;
+import abhishek.academicerp.entity.Employees;
+import abhishek.academicerp.loginhelper.EncryptionService;
+import abhishek.academicerp.loginhelper.JWThelper;
 import abhishek.academicerp.mapper.DepartmentMapper;
 import abhishek.academicerp.repo.DepartmentRepo;
+import abhishek.academicerp.repo.EmployeeRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import static java.lang.String.format;
 
 @Service
 @RequiredArgsConstructor
 public class DepartmentService {
     private final DepartmentRepo repo;
     private final DepartmentMapper mapper;
+    private final EmployeeRepo employeeRepo;
+    private final EncryptionService encryptionService;
+    private final JWThelper jwThelper;
 
     public String createDepartment(DepartmentRequest request) {
         Departments department = mapper.toEntity(request);
         repo.save(department);
         return "Department created";
+    }
+
+    public Employees retrieveEmployees(String email) {
+        return employeeRepo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException((format("Employee with email %s not found", email))));
+    }
+
+    public String login(String username, String password) {
+        Employees employees = retrieveEmployees(username);
+        if(!encryptionService.validates(password, employees.getPassword())){
+            return "Incorrect password";
+        }
+
+        return jwThelper.generateToken(username);
     }
 }
