@@ -32,6 +32,12 @@ public class DepartmentService {
         return "Department created";
     }
 
+    public String deleteDepartment(Long id) {
+        Departments department = retrieveDepartment(id);
+        repo.delete(department);
+        return "Department deleted";
+    }
+
     public String updateDepartment(DepartmentRequest request, Long id) {
         Departments department = retrieveDepartment(id);
         department.setName(request.name());
