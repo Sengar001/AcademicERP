@@ -11,6 +11,7 @@ import abhishek.academicerp.mapper.DepartmentMapper;
 import abhishek.academicerp.mapper.EmployeeMaper;
 import abhishek.academicerp.repo.DepartmentRepo;
 import abhishek.academicerp.repo.EmployeeRepo;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +52,11 @@ public class DepartmentService {
     }
 
     public List<EmployeeResponse> getEmployeeOfDepartment(Long id) {
-        return employeeRepo.findByDepartment_Id(id).stream()
+        List<Employees> employees = employeeRepo.findAllByDepartment_Id(id);
+        if (employees.isEmpty()) {
+            throw new EntityNotFoundException(format("No employee found for Department id: %d", id));
+        }
+        return employees.stream()
                 .map(employeeMaper::employeeResponse)
                 .collect(Collectors.toList());
     }

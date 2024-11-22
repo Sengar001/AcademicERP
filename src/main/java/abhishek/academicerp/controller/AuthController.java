@@ -15,7 +15,7 @@ public class AuthController {
 
     @GetMapping
     public ResponseEntity<String> getAuthToken() {
-        String name = "sengar";
+        String name = "chouhan";
         return ResponseEntity.ok(encryptionService.encode(name));
     }
 
