@@ -14,7 +14,7 @@ public class Security {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
         }
-        if(!jwThelper.validateToken(token)){
+        if (!jwThelper.validateToken(token)){
             return false;
         }
         return true;
