@@ -14,7 +14,7 @@ create table if not exists employees(
     last_name varchar(25),
     email varchar(100) unique not null,
     title varchar(25),
-    dep_id bigint not null,
+    dep_id bigint null,
     password varchar(200)
 );
 

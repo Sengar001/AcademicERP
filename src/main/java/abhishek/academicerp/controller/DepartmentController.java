@@ -35,12 +35,20 @@ public class DepartmentController {
         return ResponseEntity.ok(departmentService.updateDepartment(departmentRequest, id));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/employee")
     public ResponseEntity<List<EmployeeResponse>> getEmployeeOfDepartment(@RequestHeader ("Authorization") String authHeader, @PathVariable ("id") Long id) {
         if(!security.authenticate(authHeader)){
             return ResponseEntity.status(401).build();
         }
         return ResponseEntity.ok(departmentService.getEmployeeOfDepartment(id));
+    }
+
+    @GetMapping("/1/{id}")
+    public ResponseEntity<DepartmentResponse> getDepartment(@RequestHeader ("Authorization") String authHeader, @PathVariable ("id") Long id) {
+        if(!security.authenticate(authHeader)){
+            return ResponseEntity.status(401).build();
+        }
+        return ResponseEntity.ok(departmentService.getDepartment(id));
     }
 
 

@@ -32,7 +32,7 @@ public class Employees {
     private String password;
 
     @ManyToOne
-    @JoinColumn(name = "dep_id", nullable = false)
+    @JoinColumn(name = "dep_id")
     private Departments department;
 
 }

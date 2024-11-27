@@ -13,6 +13,7 @@ import abhishek.academicerp.repo.DepartmentRepo;
 import abhishek.academicerp.repo.EmployeeRepo;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -77,10 +78,15 @@ public class DepartmentService {
                 .orElseThrow(() -> new RuntimeException((format("Employee with email %s not found", email))));
     }
 
+    public DepartmentResponse getDepartment(Long id) {
+        Departments department = retrieveDepartment(id);
+        return mapper.toResponse(department);
+    }
+
     public String login(String username, String password) {
         Employees employees = retrieveEmployees(username);
         if(!encryptionService.validates(password, employees.getPassword())){
-            return "Incorrect password";
+            throw new BadCredentialsException("Incorrect password");
         }
 
         return jwThelper.generateToken(username);

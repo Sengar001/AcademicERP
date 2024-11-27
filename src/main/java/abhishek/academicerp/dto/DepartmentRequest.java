@@ -2,9 +2,11 @@ package abhishek.academicerp.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public record DepartmentRequest(
         @NotNull(message = "Department should be present")
+        @Size(max=100)
         @JsonProperty("name")
         String name,
 

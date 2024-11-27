@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Departments {
         @Column(name = "capacity", nullable = false)
         private int capacity;
 
-        @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+        @OneToMany(mappedBy = "department", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
         private List<Employees> employees = new ArrayList<>();
 
 }
